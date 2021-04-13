@@ -30,6 +30,20 @@ class ContactsForm extends Component {
     e.preventDefault();
 
     const { name, number } = this.state;
+    const { contacts } = this.props.state.contacts;
+
+    if (!name) {
+      return;
+    }
+
+    if (
+      contacts.some(
+        (contact) => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
 
     this.props.onSubmit(name, number);
 
@@ -72,8 +86,12 @@ class ContactsForm extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  state,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (name, number) => dispatch(contactsAction.addContact(name, number)),
 });
 
-export default connect(null, mapDispatchToProps)(ContactsForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsForm);
