@@ -13,11 +13,6 @@ import {
 import contactReducer from "./contacts/contacts-reducer";
 import storage from "redux-persist/lib/storage";
 
-const persistConfig = {
-  key: "hello",
-  storage,
-};
-
 const middleware = [
   ...getDefaultMiddleware({
     serializableCheck: {
