@@ -30,7 +30,7 @@ class ContactsForm extends Component {
     e.preventDefault();
 
     const { name, number } = this.state;
-    const { contacts } = this.props.state.contacts;
+    const { contacts, onSubmit } = this.props;
 
     if (!name) {
       return;
@@ -45,7 +45,7 @@ class ContactsForm extends Component {
       return;
     }
 
-    this.props.onSubmit(name, number);
+    onSubmit(name, number);
 
     this.reset();
   };
@@ -87,7 +87,7 @@ class ContactsForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  state,
+  contacts: state.contacts.contacts,
 });
 
 const mapDispatchToProps = (dispatch) => ({
