@@ -2,21 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import contactsOperations from "../../redux/contacts/contacts-operations";
+import contactsSelectors from "../../redux/contacts/contacts-selectors";
 import shortid from "shortid";
 
 import s from "./ContactsForm.module.css";
 
 class ContactsForm extends Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+    addContact: PropTypes.func.isRequired,
   };
 
   state = {
     name: "",
     number: "",
   };
-
-  nameInputId = shortid.generate();
 
   handleChange = (e) => {
     const { name, value } = e.currentTarget;
@@ -30,7 +29,7 @@ class ContactsForm extends Component {
     e.preventDefault();
 
     const { name, number } = this.state;
-    const { contacts, onSubmit } = this.props;
+    const { contacts, addContact } = this.props;
 
     if (!name) {
       return;
@@ -45,7 +44,7 @@ class ContactsForm extends Component {
       return;
     }
 
-    onSubmit(name, number);
+    addContact(name, number);
 
     this.reset();
   };
@@ -87,12 +86,11 @@ class ContactsForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  contacts: state.contacts.contacts,
+  contacts: contactsSelectors.getAllContacts(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (name, number) =>
-    dispatch(contactsOperations.addContact(name, number)),
-});
+const mapDispatchToProps = {
+  addContact: contactsOperations.addContact,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsForm);

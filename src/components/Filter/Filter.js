@@ -13,6 +13,10 @@ const Filter = ({ value, onChange }) => (
   </>
 );
 
+Filter.defaultProps = {
+  value: "",
+};
+
 Filter.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,

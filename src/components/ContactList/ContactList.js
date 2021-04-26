@@ -7,7 +7,16 @@ import contactsSelectors from "../../redux/contacts/contacts-selectors";
 import s from "./ContactList.module.css";
 
 class ContactList extends Component {
-  state = {};
+  static propTypes = {
+    contacts: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        number: PropTypes.string.isRequired,
+      })
+    ),
+    onDeleteContact: PropTypes.func.isRequired,
+  };
 
   componentDidMount() {
     this.props.fetchContacts();
@@ -34,16 +43,29 @@ class ContactList extends Component {
     );
   }
 }
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-  onDeleteContact: PropTypes.func.isRequired,
-};
+
+const mapStateToProps = (state) => ({
+  contacts: contactsSelectors.getVisibleContacts(state),
+  isLoadingContacts: contactsSelectors.getLoading(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onDeleteContact: (id) => dispatch(contactsOperations.deleteContact(id)),
+  fetchContacts: () => dispatch(contactsOperations.fetchContacts),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+
+// ContactList.propTypes = {
+//   contacts: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       name: PropTypes.string.isRequired,
+//       id: PropTypes.string.isRequired,
+//       number: PropTypes.string.isRequired,
+//     })
+//   ),
+//   onDeleteContact: PropTypes.func.isRequired,
+// };
 
 // const getVisibleContacts = (allContacts, filter) => {
 //   const normalFilter = filter.toLowerCase();
@@ -56,15 +78,3 @@ ContactList.propTypes = {
 // const mapStateToProps = ({ contacts: { contacts, filter } }) => ({
 //   contacts: getVisibleContacts(contacts, filter),
 // });
-
-const mapStateToProps = (state) => ({
-  contacts: contactsSelectors.getVisibleContacts(state),
-  isLoadingContacts: contactsSelectors.getLoading(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onDeleteContact: (id) => dispatch(contactsOperations.deleteContact(id)),
-  fetchContacts: () => dispatch(contactsOperations.fetchContacts()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
