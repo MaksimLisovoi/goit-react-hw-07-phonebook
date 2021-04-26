@@ -1,28 +1,39 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import contactsOperations from "../../redux/contacts/contacts-operations";
+import contactsSelectors from "../../redux/contacts/contacts-selectors";
 
 import s from "./ContactList.module.css";
 
-const ContactList = ({ contacts, onDeleteContact }) => {
-  return (
-    <>
-      <ul>
-        {contacts.map(({ name, id, number }) => (
-          <li key={id} className={s.contactItem}>
-            <p>
-              <span>{name}:</span> {number}
-            </p>
-            <button type="button" onClick={() => onDeleteContact(id)}>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
-    </>
-  );
-};
+class ContactList extends Component {
+  state = {};
+
+  componentDidMount() {
+    this.props.fetchContacts();
+  }
+
+  render() {
+    const { contacts, onDeleteContact } = this.props;
+    return (
+      <>
+        <ul>
+          {contacts &&
+            contacts.map(({ name, id, number }) => (
+              <li key={id} className={s.contactItem}>
+                <p>
+                  <span>{name}:</span> {number}
+                </p>
+                <button type="button" onClick={() => onDeleteContact(id)}>
+                  Delete
+                </button>
+              </li>
+            ))}
+        </ul>
+      </>
+    );
+  }
+}
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
@@ -34,20 +45,26 @@ ContactList.propTypes = {
   onDeleteContact: PropTypes.func.isRequired,
 };
 
-const getVisibleContacts = (allContacts, filter) => {
-  const normalFilter = filter.toLowerCase();
+// const getVisibleContacts = (allContacts, filter) => {
+//   const normalFilter = filter.toLowerCase();
 
-  return allContacts.filter((contact) =>
-    contact.name.toLowerCase().includes(normalFilter)
-  );
-};
+//   return allContacts.filter((contact) =>
+//     contact.name.toLowerCase().includes(normalFilter)
+//   );
+// };
 
-const mapStateToProps = ({ contacts: { contacts, filter } }) => ({
-  contacts: getVisibleContacts(contacts, filter),
+// const mapStateToProps = ({ contacts: { contacts, filter } }) => ({
+//   contacts: getVisibleContacts(contacts, filter),
+// });
+
+const mapStateToProps = (state) => ({
+  contacts: contactsSelectors.getVisibleContacts(state),
+  isLoadingContacts: contactsSelectors.getLoading(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onDeleteContact: (id) => dispatch(contactsOperations.deleteContact(id)),
+  fetchContacts: () => dispatch(contactsOperations.fetchContacts()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
