@@ -15,4 +15,13 @@ const getVisibleContacts = createSelector(
   }
 );
 
+// const getVisibleContacts = createSelector(
+//   [getAllContacts, getFilter],
+//   (contacts, filter) =>
+//   contacts.filter(
+//       ({ name }) =>
+//         name.toLowerCase().includes(filter.toLocaleLowerCase()) 
+//     ),
+// );
+
 export default { getLoading, getFilter, getVisibleContacts, getAllContacts };

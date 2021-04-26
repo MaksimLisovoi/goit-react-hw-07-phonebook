@@ -1,6 +1,8 @@
 import axios from "axios";
 import actions from "./contacts-action";
 
+
+
 axios.defaults.baseURL = "http://localhost:4040";
 
 const fetchContacts = () => async (dispatch) => {
@@ -29,7 +31,7 @@ const addContact = (name, number) => async (dispatch) => {
   dispatch(addContactRequest());
 
   try {
-    const { data } = await axios.get("/contacts", contact);
+    const { data } = await axios.post("/contacts", contact);
     dispatch(addContactSuccess(data));
   } catch (error) {
     dispatch(addContactError(error));
