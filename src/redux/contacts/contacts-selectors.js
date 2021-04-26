@@ -10,7 +10,7 @@ const getVisibleContacts = createSelector(
   [getAllContacts, getFilter],
   (contacts, filter) => {
     return contacts.filter(({ name }) => {
-      return name.toLowerCase().includes(filter.toLowerCase());
+      name.toLowerCase().includes(filter.toLowerCase());
     });
   }
 );
@@ -20,7 +20,7 @@ const getVisibleContacts = createSelector(
 //   (contacts, filter) =>
 //   contacts.filter(
 //       ({ name }) =>
-//         name.toLowerCase().includes(filter.toLocaleLowerCase()) 
+//         name.toLowerCase().includes(filter.toLocaleLowerCase())
 //     ),
 // );
 

@@ -24,9 +24,9 @@ class ContactList extends Component {
     const { contacts, onDeleteContact } = this.props;
     return (
       <>
-        <ul>
-          {contacts &&
-            contacts.map(({ name, id, number }) => (
+        {contacts && (
+          <ul>
+            {contacts.map(({ name, id, number }) => (
               <li key={id} className={s.contactItem}>
                 <p>
                   <span>{name}:</span> {number}
@@ -36,7 +36,8 @@ class ContactList extends Component {
                 </button>
               </li>
             ))}
-        </ul>
+          </ul>
+        )}
       </>
     );
   }
