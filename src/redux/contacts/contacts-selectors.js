@@ -8,20 +8,10 @@ const getAllContacts = (state) => state.contacts.contacts;
 
 const getVisibleContacts = createSelector(
   [getAllContacts, getFilter],
-  (contacts, filter) => {
-    return contacts.filter(({ name }) => {
-      return name.toLowerCase().includes(filter.toLowerCase());
-    });
-  }
+  (contacts, filter) =>
+    contacts.filter(({ name }) =>
+      name.toLowerCase().includes(filter.toLocaleLowerCase())
+    )
 );
-
-// const getVisibleContacts = createSelector(
-//   [getAllContacts, getFilter],
-//   (contacts, filter) =>
-//   contacts.filter(
-//       ({ name }) =>
-//         name.toLowerCase().includes(filter.toLocaleLowerCase()) 
-//     ),
-// );
 
 export default { getLoading, getFilter, getVisibleContacts, getAllContacts };

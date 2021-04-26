@@ -1,8 +1,6 @@
 import { combineReducers } from "redux";
 import { createReducer } from "@reduxjs/toolkit";
-import actions from "./contacts-action";
-
-const {
+import {
   addContactRequest,
   addContactSuccess,
   addContactError,
@@ -13,7 +11,7 @@ const {
   fetchContactsSuccess,
   fetchContactsError,
   changeFilter,
-} = actions;
+} from "./contacts-action";
 
 const contacts = createReducer([], {
   [fetchContactsSuccess]: (_, { payload }) => payload,
@@ -39,7 +37,7 @@ const loading = createReducer(false, {
 });
 
 const error = createReducer(null, {});
-
+// const reducers = { contacts, filter, loading };
 export default combineReducers({
   contacts,
   filter,

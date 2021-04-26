@@ -22,6 +22,7 @@ class ContactList extends Component {
 
   render() {
     const { contacts, onDeleteContact } = this.props;
+    console.log(contacts);
     return (
       <>
         <ul>

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import contactsOperations from "../../redux/contacts/contacts-operations";
-import contactsSelectors from "../../redux/contacts/contacts-selectors";
+import { contactsOperations, contactsSelectors } from "../../redux/contacts";
+
 import shortid from "shortid";
 
 import s from "./ContactsForm.module.css";
